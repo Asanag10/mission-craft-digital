@@ -888,6 +888,74 @@ body {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
+.form-response {
+    margin-bottom: 1.5rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    font-weight: 600;
+    color: var(--text-dark);
+    background-color: #f8fafc;
+    border: 1px solid transparent;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.form-response.hidden {
+    opacity: 0;
+    transform: translateY(-6px);
+}
+
+.form-response.success {
+    color: #065f46;
+    background-color: #ecfdf5;
+    border-color: #a7f3d0;
+}
+
+.form-response.error {
+    color: #991b1b;
+    background-color: #fee2e2;
+    border-color: #fecaca;
+}
+
+.form-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%) translateY(20px);
+    min-width: min(90%, 420px);
+    max-width: 420px;
+    padding: 1rem 1.2rem;
+    border-radius: 16px;
+    background-color: rgba(255,255,255,0.96);
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16);
+    color: var(--text-dark);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 2000;
+    text-align: center;
+    font-weight: 600;
+}
+
+.form-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.form-toast.success {
+    border-color: #a7f3d0;
+    background-color: rgba(236, 253, 245, 0.98);
+    color: #065f46;
+}
+
+.form-toast.error {
+    border-color: #fecaca;
+    background-color: rgba(254, 226, 226, 0.98);
+    color: #991b1b;
+}
+
 .contact-info {
     background-color: var(--bg-gray);
     padding: 3rem;

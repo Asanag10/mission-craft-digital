@@ -35,7 +35,64 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Contact form uses Formspree action from HTML; no JS interception is needed for simple submission.
+    // Contact form submission is handled with Formspree AJAX so the form can reset after success.
+    const contactForm = document.getElementById('contactForm');
+    const formToast = document.getElementById('formToast');
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    let toastTimeout;
+
+    function showToast(message, type) {
+        clearTimeout(toastTimeout);
+        formToast.textContent = message;
+        formToast.className = 'form-toast show ' + type;
+        formToast.setAttribute('aria-hidden', 'false');
+        toastTimeout = setTimeout(hideToast, 5000);
+    }
+
+    function hideToast() {
+        formToast.className = 'form-toast hidden';
+        formToast.setAttribute('aria-hidden', 'true');
+    }
+
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        hideToast();
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+
+        const formData = new FormData(contactForm);
+
+        fetch(contactForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(function(response) {
+            if (response.ok) {
+                contactForm.reset();
+                showToast('Thank you! Your message has been sent successfully.', 'success');
+            } else {
+                return response.json().then(function(data) {
+                    let errorText = 'Oops! There was a problem submitting your message.';
+                    if (data && data.errors && data.errors.length) {
+                        errorText = data.errors.map(function(error) {
+                            return error.message;
+                        }).join(' ');
+                    }
+                    throw new Error(errorText);
+                });
+            }
+        })
+        .catch(function(error) {
+            showToast(error.message || 'Oops! There was a problem submitting your message.', 'error');
+        })
+        .finally(function() {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Project Inquiry';
+        });
+    });
 
     // Scroll-triggered animations
     const observerOptions = {
