@@ -9,35 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
         navToggle.setAttribute('aria-expanded', isOpen);
     });
 
-    // Contact form with Netlify Forms support
-    const contactForm = document.getElementById('contactForm');
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
-
-        // Netlify form submission is removed for Vercel deployment.
-        // Replace this with a real form backend when you want actual message delivery.
-        setTimeout(function() {
-            showSuccess();
-        }, 800);
-
-        function showSuccess() {
-            alert('Thank you for reaching out to MissionCraft Digital. Your inquiry has been received, and we’ll follow up soon.');
-            submitBtn.textContent = 'Inquiry Sent';
-            submitBtn.style.backgroundColor = '#059669';
-            contactForm.reset();
-            setTimeout(function() {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Project Inquiry';
-                submitBtn.style.backgroundColor = '';
-            }, 3000);
-        }
-    });
-
     // Smooth scrolling for nav links + close mobile menu
     const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
     navLinks.forEach(link => {
@@ -63,6 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Contact form uses Formspree action from HTML; no JS interception is needed for simple submission.
 
     // Scroll-triggered animations
     const observerOptions = {
