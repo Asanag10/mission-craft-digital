@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Contact form with Netlify Forms support
     const contactForm = document.getElementById('contactForm');
     const submitBtn = contactForm.querySelector('button[type="submit"]');
-    const isNetlify = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
 
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -20,32 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending...';
 
-        const formData = new FormData(contactForm);
-
-        if (isNetlify) {
-            fetch('/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(formData).toString()
-            })
-            .then(function(response) {
-                if (response.ok) {
-                    showSuccess();
-                } else {
-                    throw new Error('Form submission failed');
-                }
-            })
-            .catch(function() {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Project Inquiry';
-                alert('There was an error sending your inquiry. Please try again.');
-            });
-        } else {
-            // Local development: simulate success
-            setTimeout(function() {
-                showSuccess();
-            }, 800);
-        }
+        // Netlify form submission is removed for Vercel deployment.
+        // Replace this with a real form backend when you want actual message delivery.
+        setTimeout(function() {
+            showSuccess();
+        }, 800);
 
         function showSuccess() {
             alert('Thank you for reaching out to MissionCraft Digital. Your inquiry has been received, and we’ll follow up soon.');
